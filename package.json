@@ -11,11 +11,8 @@
     "src",
     "lib",
     "android",
-    "ios",
     "cpp",
-    "*.podspec",
     "!lib/typescript/example",
-    "!ios/build",
     "!android/build",
     "!android/gradle",
     "!android/gradlew",
@@ -34,17 +31,15 @@
     "release": "release-it",
     "example": "yarn --cwd example",
     "build:android": "cd example/android && ./gradlew assembleDebug --no-daemon --console=plain -PreactNativeArchitectures=arm64-v8a",
-    "build:ios": "cd example/ios && xcodebuild -workspace AndroidSmsRetrieverExample.xcworkspace -scheme AndroidSmsRetrieverExample -configuration Debug -sdk iphonesimulator CC=clang CPLUSPLUS=clang++ LD=clang LDPLUSPLUS=clang++ GCC_OPTIMIZATION_LEVEL=0 GCC_PRECOMPILE_PREFIX_HEADER=YES ASSETCATALOG_COMPILER_OPTIMIZATION=time DEBUG_INFORMATION_FORMAT=dwarf COMPILER_INDEX_STORE_ENABLE=NO",
-    "bootstrap": "yarn example && yarn install && yarn example pods",
-    "clean": "del-cli android/build example/android/build example/android/app/build example/ios/build"
+    "bootstrap": "yarn example && yarn install",
+    "clean": "del-cli android/build example/android/build example/android/app/build"
   },
   "keywords": [
     "react-native",
-    "ios",
     "android"
   ],
   "repository": "https://github.com/Aure77/react-native-android-sms-retriever",
-  "author": "Aure77 <aure77+github@gmail.com> (https://github.com/Aure77)",
+  "author": "Aure77 <1374354+Aure77@users.noreply.github.com> (https://github.com/Aure77)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Aure77/react-native-android-sms-retriever/issues"
@@ -67,7 +62,6 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "^28.1.1",
-    "pod-install": "^0.1.0",
     "prettier": "^2.0.5",
     "react": "18.2.0",
     "react-native": "0.72.4",

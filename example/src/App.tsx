@@ -1,18 +1,73 @@
 import * as React from 'react';
 
-import { StyleSheet, View, Text } from 'react-native';
-import { multiply } from 'react-native-android-sms-retriever';
+import {
+  StyleSheet,
+  View,
+  Text,
+  type EmitterSubscription,
+  DeviceEventEmitter,
+  Platform,
+  Button,
+} from 'react-native';
+import SmsRetriever from 'react-native-android-sms-retriever';
 
 export default function App() {
-  const [result, setResult] = React.useState<number | undefined>();
+  const [phoneNumber, setPhoneNumber] = React.useState<string | undefined>();
+  const [result, setResult] = React.useState<string | undefined>();
+
+  const requestPhoneNumber = async () => {
+    // get list of available phone numbers
+    try {
+      const selectedPhone = await SmsRetriever.requestPhoneNumber();
+      console.log('Selected Phone is : ' + selectedPhone);
+      setPhoneNumber(selectedPhone);
+    } catch (e) {
+      console.warn('Get Phone error', e);
+    }
+  };
 
   React.useEffect(() => {
-    multiply(3, 7).then(setResult);
+    async function getAppHashAsync() {
+      // get App Hash
+      const hash = await SmsRetriever.getAppHash();
+      console.log('Your App Hash is : ' + hash);
+    }
+    // only to be used with Android
+    if (Platform.OS === 'android') getAppHashAsync();
+  }, []);
+
+  React.useEffect(() => {
+    let smsListener: undefined | EmitterSubscription;
+    async function smsListenAsync() {
+      try {
+        // set Up SMS Listener
+        smsListener = DeviceEventEmitter.addListener(
+          SmsRetriever.SMS_EVENT,
+          (data: any) => {
+            setResult(JSON.stringify(data));
+          }
+        );
+        // start Retriever;
+        await SmsRetriever.startSmsRetriever();
+      } catch (e) {
+        console.warn('sms retriever error', e);
+      }
+    }
+    // only to be used with Android
+    if (Platform.OS === 'android') smsListenAsync();
+    return () => {
+      // remove the listener on unmount
+      smsListener?.remove();
+    };
   }, []);
 
   return (
     <View style={styles.container}>
-      <Text>Result: {result}</Text>
+      <Button title="Request phone number" onPress={requestPhoneNumber} />
+      {phoneNumber && (
+        <Text style={styles.box}>Phone Number: {phoneNumber}</Text>
+      )}
+      <Text style={styles.box}>Result: {result}</Text>
     </View>
   );
 }
@@ -24,8 +79,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   box: {
-    width: 60,
-    height: 60,
-    marginVertical: 20,
+    marginVertical: 16,
   },
 });
