@@ -33,8 +33,19 @@ export default function App() {
         // set Up SMS Listener
         smsListener = DeviceEventEmitter.addListener(
           SmsRetriever.SMS_EVENT,
-          (data: any) => {
-            setResult(JSON.stringify(data));
+          (event) => {
+            console.log("sms_event", event);
+            if ("message" in event) {
+              // sub?.remove(); // optional for processing once
+              const smsOtp = parseOneTimeCode(event.message);
+              if (smsOtp) {
+                setOtp(smsOtp);
+              } else {
+                console.warn("No OTP found in SMS");
+              }
+            } else {
+              // handle timeout / error
+            }
           }
         );
         // start sms retriever
@@ -57,6 +68,14 @@ export default function App() {
     </View>
   );
 }
+
+const parseOneTimeCode = (message?: string) => {
+  if (!message) {
+    return null;
+  }
+  const matcher = message.match(/your code is (\w+)/im);
+  return matcher?.[1] ?? null;
+};
 ```
 
 ### SMS User Consent
@@ -78,8 +97,9 @@ export default function App() {
         // set Up SMS Listener
         smsListener = DeviceEventEmitter.addListener(
           SmsRetriever.SMS_EVENT,
-          (data: any) => {
-            setResult(JSON.stringify(data));
+          (event) => {
+            // handle event / parse OTP as you want
+            setResult(JSON.stringify(event));
           }
         );
         // start sms user consent
