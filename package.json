@@ -1,6 +1,6 @@
 {
   "name": "react-native-android-sms-retriever",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Android SMS Retriever API for React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -46,7 +46,8 @@
   },
   "homepage": "https://github.com/Aure77/react-native-android-sms-retriever#readme",
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^17.0.2",
