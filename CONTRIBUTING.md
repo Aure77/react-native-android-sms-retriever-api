@@ -53,10 +53,9 @@ Remember to add tests for your change if possible. Run the unit tests by:
 yarn test
 ```
 
-To edit the Objective-C or Swift files, open `example/ios/AndroidSmsRetrieverExample.xcworkspace` in XCode and find the source files at `Pods > Development Pods > react-native-android-sms-retriever`.
+To edit the Objective-C or Swift files, open `example/ios/AndroidSmsRetrieverExample.xcworkspace` in XCode and find the source files at `Pods > Development Pods > react-native-android-sms-retriever-api`.
 
-To edit the Java or Kotlin files, open `example/android` in Android studio and find the source files at `react-native-android-sms-retriever` under `Android`.
-
+To edit the Java or Kotlin files, open `example/android` in Android studio and find the source files at `react-native-android-sms-retriever-api` under `Android`.
 
 ### Commit message convention
 

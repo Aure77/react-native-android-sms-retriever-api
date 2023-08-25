@@ -9,7 +9,7 @@ import {
   Platform,
   Button,
 } from 'react-native';
-import SmsRetriever from 'react-native-android-sms-retriever';
+import SmsRetriever from 'react-native-android-sms-retriever-api';
 
 export default function App() {
   const [phoneNumber, setPhoneNumber] = React.useState<string | undefined>();
