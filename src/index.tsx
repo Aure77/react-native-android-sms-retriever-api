@@ -8,6 +8,7 @@ const LINKING_ERROR =
 type AndroidSmsRetrieverType = {
   requestPhoneNumber(): Promise<string>;
   startSmsRetriever(): Promise<boolean>;
+  startSmsUserConsent(): Promise<boolean>;
   getAppHash(): Promise<string>;
   SMS_EVENT: string;
 };

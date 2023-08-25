@@ -47,7 +47,7 @@ export default function App() {
             setResult(JSON.stringify(data));
           }
         );
-        // start Retriever;
+        // start listening sms retriever
         await SmsRetriever.startSmsRetriever();
       } catch (e) {
         console.warn('sms retriever error', e);
@@ -67,7 +67,7 @@ export default function App() {
       {phoneNumber && (
         <Text style={styles.box}>Phone Number: {phoneNumber}</Text>
       )}
-      <Text style={styles.box}>Result: {result}</Text>
+      <Text style={styles.box}>SMS Result: {result}</Text>
     </View>
   );
 }

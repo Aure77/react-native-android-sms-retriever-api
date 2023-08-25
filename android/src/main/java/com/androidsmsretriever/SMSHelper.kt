@@ -38,6 +38,34 @@ class SMSHelper(private val mContext: ReactApplicationContext) {
       promise!!.reject(TASK_FAILURE_ERROR_TYPE, TASK_FAILURE_ERROR_MESSAGE)
     }
   }
+
+
+  fun startSmsUserConsent(promise: Promise?) {
+    if (!GooglePlayServicesHelper.isAvailable(mContext)) {
+      promise!!.reject(
+        GooglePlayServicesHelper.UNAVAILABLE_ERROR_TYPE,
+        GooglePlayServicesHelper.UNAVAILABLE_ERROR_MESSAGE
+      )
+      return
+    }
+    if (!GooglePlayServicesHelper.hasSupportedVersion(mContext)) {
+      promise!!.reject(
+        GooglePlayServicesHelper.UNSUPORTED_VERSION_ERROR_TYPE,
+        GooglePlayServicesHelper.UNSUPORTED_VERSION_ERROR_MESSAGE
+      )
+      return
+    }
+    val client = SmsRetriever.getClient(mContext)
+    val task = client.startSmsUserConsent(null);
+    task.addOnSuccessListener {
+      val registered = tryToRegisterReceiver()
+      promise!!.resolve(registered)
+    }
+    task.addOnFailureListener {
+      unregisterReceiverIfNeeded()
+      promise!!.reject(TASK_FAILURE_ERROR_TYPE, TASK_FAILURE_ERROR_MESSAGE)
+    }
+  }
   //endregion
 
   // region - Privates
