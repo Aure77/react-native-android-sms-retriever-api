@@ -1,4 +1,4 @@
-# react-native-android-sms-retriever
+# react-native-android-sms-retriever-api
 
 React Native implementation of [Android SMS Retriever API](https://developers.google.com/identity/sms-retriever/overview). No READ_SMS permission is required.
 
@@ -9,7 +9,7 @@ For better understanding, please refer this [article](https://medium.com/android
 ## Installation
 
 ```sh
-yarn add react-native-android-sms-retriever
+yarn add react-native-android-sms-retriever-api
 ```
 
 ## Usage
@@ -21,7 +21,7 @@ Which API to use ? : https://developers.google.com/identity/sms-retriever/choose
 See https://developers.google.com/identity/sms-retriever/overview
 
 ```js
-import SmsRetriever from 'react-native-android-sms-retriever';
+import SmsRetriever from 'react-native-android-sms-retriever-api';
 
 export default function App() {
   const [result, setResult] = React.useState<string | undefined>();
@@ -63,10 +63,10 @@ export default function App() {
 
 See https://developers.google.com/identity/sms-retriever/user-consent/overview
 
-<img src="https://github.com/Aure77/react-native-android-sms-retriever/assets/1374354/f657f237-85da-4e9e-92b8-feb9b8c7f611" width="360" />
+<img src="https://github.com/Aure77/react-native-android-sms-retriever-api/assets/1374354/f657f237-85da-4e9e-92b8-feb9b8c7f611" width="360" />
 
 ```js
-import SmsRetriever from 'react-native-android-sms-retriever';
+import SmsRetriever from 'react-native-android-sms-retriever-api';
 
 export default function App() {
   const [result, setResult] = React.useState<string | undefined>();
@@ -107,7 +107,7 @@ export default function App() {
 ### Request user phone number
 
 ```js
-import SmsRetriever from 'react-native-android-sms-retriever';
+import SmsRetriever from 'react-native-android-sms-retriever-api';
 
 export default function App() {
   const [phoneNumber, setPhoneNumber] = React.useState<string | undefined>();
@@ -143,7 +143,7 @@ Each build type (debug, release) can use a different signing config, so your has
 or you can use helper at runtime (on each variant):
 
 ```js
-import SmsRetriever from 'react-native-android-sms-retriever';
+import SmsRetriever from 'react-native-android-sms-retriever-api';
 
 export default function App() {
   const [result, setResult] = React.useState<string | undefined>();
