@@ -24,13 +24,18 @@ class AndroidSmsRetrieverModule(reactContext: ReactApplicationContext) :
 
   override fun getConstants(): MutableMap<String, Any> {
     val constants: MutableMap<String, Any> = HashMap()
-    constants["SMS_EVENT"] = SmsBroadcastReceiver.SMS_EVENT
+    constants["SMS_EVENT"] = JSEventHelper.SMS_EVENT
     return constants
   }
 
   @ReactMethod
   fun startSmsRetriever(promise: Promise?) {
     mSmsHelper.startSmsRetriever(promise)
+  }
+
+  @ReactMethod
+  fun startSmsUserConsent(promise: Promise?) {
+    mSmsHelper.startSmsUserConsent(promise)
   }
 
   @ReactMethod
