@@ -63,6 +63,8 @@ export default function App() {
 
 See https://developers.google.com/identity/sms-retriever/user-consent/overview
 
+<img src="https://github.com/Aure77/react-native-android-sms-retriever/assets/1374354/f657f237-85da-4e9e-92b8-feb9b8c7f611" width="360" />
+
 ```js
 import SmsRetriever from 'react-native-android-sms-retriever';
 
