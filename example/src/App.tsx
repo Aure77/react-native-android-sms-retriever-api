@@ -37,6 +37,28 @@ export default function App() {
   }, []);
 
   React.useEffect(() => {
+    async function getGPSCompatAsync() {
+      // get API compat to GPS
+      const {
+        isGooglePlayServicesAvailable,
+        hasGooglePlayServicesSupportedVersion,
+      } = await SmsRetriever.getSmsRetrieverCompatibility();
+      if (
+        isGooglePlayServicesAvailable &&
+        hasGooglePlayServicesSupportedVersion
+      ) {
+        console.log('Your App can use SMS Retriever');
+      } else {
+        console.warn(
+          'Your App CANNOT use SMS Retriever. Use a fallback method if needed'
+        );
+      }
+    }
+    // only to be used with Android
+    if (Platform.OS === 'android') getGPSCompatAsync();
+  }, []);
+
+  React.useEffect(() => {
     let smsListener: undefined | EmitterSubscription;
     async function smsListenAsync() {
       try {
