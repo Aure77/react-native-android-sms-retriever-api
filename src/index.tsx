@@ -10,6 +10,10 @@ type AndroidSmsRetrieverType = {
   startSmsRetriever(): Promise<boolean>;
   startSmsUserConsent(): Promise<boolean>;
   getAppHash(): Promise<string>;
+  getSmsRetrieverCompatibility(): Promise<{
+    isGooglePlayServicesAvailable: boolean;
+    hasGooglePlayServicesSupportedVersion: boolean;
+  }>;
   SMS_EVENT: string;
 };
 

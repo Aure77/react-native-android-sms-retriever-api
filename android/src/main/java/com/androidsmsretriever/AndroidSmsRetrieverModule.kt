@@ -6,6 +6,7 @@ import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
+import com.facebook.react.bridge.WritableNativeMap
 
 class AndroidSmsRetrieverModule(reactContext: ReactApplicationContext) :
   ReactContextBaseJavaModule(reactContext) {
@@ -59,6 +60,16 @@ class AndroidSmsRetrieverModule(reactContext: ReactApplicationContext) :
     } catch (e: NameNotFoundException) {
       promise?.reject(e)
     }
+  }
+
+  @ReactMethod
+  fun getSmsRetrieverCompatibility(promise: Promise?) {
+    val available = GooglePlayServicesHelper.isAvailable(reactApplicationContext)
+    val hasSupportedVersion = GooglePlayServicesHelper.hasSupportedVersion(reactApplicationContext)
+    val map = WritableNativeMap()
+    map.putBoolean("isGooglePlayServicesAvailable", available)
+    map.putBoolean("hasGooglePlayServicesSupportedVersion", hasSupportedVersion)
+    promise?.resolve(map)
   }
 
   companion object {
