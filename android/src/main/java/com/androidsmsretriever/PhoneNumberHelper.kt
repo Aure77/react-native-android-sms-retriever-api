@@ -1,17 +1,19 @@
 package com.androidsmsretriever
 
 import android.app.Activity
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.content.IntentSender.SendIntentException
+import android.util.Log
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import com.androidsmsretriever.GooglePlayServicesHelper.hasSupportedVersion
 import com.androidsmsretriever.GooglePlayServicesHelper.isAvailable
 import com.facebook.react.bridge.ActivityEventListener
 import com.facebook.react.bridge.BaseActivityEventListener
 import com.facebook.react.bridge.Promise
-import com.google.android.gms.auth.api.credentials.Credential
-import com.google.android.gms.auth.api.credentials.Credentials
-import com.google.android.gms.auth.api.credentials.HintRequest
+import com.google.android.gms.auth.api.identity.GetPhoneNumberHintIntentRequest
+import com.google.android.gms.auth.api.identity.Identity
 
 
 class PhoneNumberHelper {
@@ -49,19 +51,28 @@ class PhoneNumberHelper {
       callAndResetListener()
       return
     }
-    val hintRequest = HintRequest.Builder()
-      .setPhoneNumberIdentifierSupported(true)
-      .build()
-    val intent = Credentials.getClient(activity).getHintPickerIntent(hintRequest)
-    try {
-      activity.startIntentSenderForResult(
-        intent.intentSender,
-        REQUEST_PHONE_NUMBER_REQUEST_CODE, null, 0, 0, 0
-      )
-    } catch (e: SendIntentException) {
-      promiseReject(SEND_INTENT_ERROR_TYPE, SEND_INTENT_ERROR_MESSAGE)
-      callAndResetListener()
-    }
+
+    val hintRequest: GetPhoneNumberHintIntentRequest = GetPhoneNumberHintIntentRequest.builder().build()
+    Identity.getSignInClient(context)
+      .getPhoneNumberHintIntent(hintRequest)
+      .addOnSuccessListener { result: PendingIntent ->
+        try {
+          val intent = IntentSenderRequest.Builder(result).build()
+          activity.startIntentSenderForResult(
+            intent.intentSender,
+            REQUEST_PHONE_NUMBER_REQUEST_CODE, null, 0, 0, 0
+          )
+        } catch (e: Exception) {
+          Log.e(TAG, "Launching the PendingIntent failed")
+          promiseReject(SEND_INTENT_ERROR_TYPE, SEND_INTENT_ERROR_MESSAGE)
+          callAndResetListener()
+        }
+      }
+      .addOnFailureListener {
+        Log.e(TAG, "Phone Number Hint failed")
+        promiseReject(SEND_INTENT_ERROR_TYPE, SEND_INTENT_ERROR_MESSAGE)
+        callAndResetListener()
+      }
   }
 
   private fun callAndResetListener() {
@@ -97,19 +108,16 @@ class PhoneNumberHelper {
     ) {
       super.onActivityResult(activity, requestCode, resultCode, data)
       if (requestCode == REQUEST_PHONE_NUMBER_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
-        val credential: Credential? = data.getParcelableExtra(Credential.EXTRA_KEY)
-        if (credential == null) {
+        try {
+          val phoneNumber = Identity.getSignInClient(activity).getPhoneNumberFromIntent(data)
+          promiseResolve(phoneNumber)
+          callAndResetListener()
+        } catch(e: Exception) {
+          Log.e(TAG, "Phone Number Hint failed")
           promiseReject(ACTIVITY_RESULT_NOOK_ERROR_TYPE, ACTIVITY_RESULT_NOOK_ERROR_MESSAGE)
           callAndResetListener()
-          return
         }
-        val phoneNumber = credential.id
-        promiseResolve(phoneNumber)
-        callAndResetListener()
-        return
       }
-      promiseReject(ACTIVITY_RESULT_NOOK_ERROR_TYPE, ACTIVITY_RESULT_NOOK_ERROR_MESSAGE)
-      callAndResetListener()
     }
   }
   //endregion
@@ -121,6 +129,7 @@ class PhoneNumberHelper {
   //endregion
 
   companion object {
+    private const val TAG = "PhoneNumberHelper"
     private const val REQUEST_PHONE_NUMBER_REQUEST_CODE = 1
     private const val ACTIVITY_NULL_ERROR_TYPE = "ACTIVITY_NULL_ERROR_TYPE"
     private const val ACTIVITY_RESULT_NOOK_ERROR_TYPE = "ACTIVITY_RESULT_NOOK_ERROR_TYPE"

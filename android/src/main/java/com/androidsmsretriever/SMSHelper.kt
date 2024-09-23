@@ -1,7 +1,10 @@
 package com.androidsmsretriever
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.IntentFilter
+import android.os.Build
 import android.util.Log
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
@@ -73,7 +76,11 @@ class SMSHelper(private val mContext: ReactApplicationContext) {
     smsVerificationReceiver = SmsBroadcastReceiver(mContext)
     val intentFilter = IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION)
     return try {
-      mContext.registerReceiver(smsVerificationReceiver, intentFilter, SmsRetriever.SEND_PERMISSION, null)
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        mContext.registerReceiver(smsVerificationReceiver, intentFilter, SmsRetriever.SEND_PERMISSION, null, Context.RECEIVER_EXPORTED)
+      } else @SuppressLint("UnspecifiedRegisterReceiverFlag") {
+        mContext.registerReceiver(smsVerificationReceiver, intentFilter, SmsRetriever.SEND_PERMISSION, null)
+      }
       true
     } catch (e: Exception) {
       Log.w(TAG, e)
