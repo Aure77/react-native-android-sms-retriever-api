@@ -32,7 +32,7 @@ export default function App() {
       try {
         // set Up SMS Listener
         smsListener = DeviceEventEmitter.addListener(
-          SmsRetriever.SMS_EVENT,
+          SmsRetriever.getConstants().SMS_EVENT,
           (event) => {
             console.log("sms_event", event);
             if ("message" in event) {
@@ -96,7 +96,7 @@ export default function App() {
       try {
         // set Up SMS Listener
         smsListener = DeviceEventEmitter.addListener(
-          SmsRetriever.SMS_EVENT,
+          SmsRetriever.getConstants().SMS_EVENT,
           (event) => {
             // handle event / parse OTP as you want
             setResult(JSON.stringify(event));
