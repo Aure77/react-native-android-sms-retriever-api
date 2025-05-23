@@ -32,15 +32,26 @@ class AppSignatureHelper(context: Context?) :
       // Get all package signatures for the current package
       val packageName = packageName
       val packageManager = packageManager
-      val signatures = packageManager.getPackageInfo(
-        packageName,
-        PackageManager.GET_SIGNATURES
-      ).signatures
+      val signatures = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+        val packageInfo = packageManager.getPackageInfo(
+          packageName,
+          PackageManager.GET_SIGNING_CERTIFICATES
+        )
+        packageInfo.signingInfo?.apkContentsSigners
+      } else {
+        val packageInfo = packageManager.getPackageInfo(
+          packageName,
+          PackageManager.GET_SIGNATURES
+        )
+        packageInfo.signatures
+      }
       // For each signature create a compatible hash
-      for (signature in signatures) {
-        val hash = hash(packageName, signature.toCharsString())
-        if (hash != null) {
-          appCodes.add(String.format("%s", hash))
+      if (signatures != null) {
+        for (signature in signatures) {
+          val hash = hash(packageName, signature.toCharsString())
+          if (hash != null) {
+            appCodes.add(String.format("%s", hash))
+          }
         }
       }
       return appCodes

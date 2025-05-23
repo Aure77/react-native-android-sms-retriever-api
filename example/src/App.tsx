@@ -64,7 +64,7 @@ export default function App() {
       try {
         // set Up SMS Listener
         smsListener = DeviceEventEmitter.addListener(
-          SmsRetriever.SMS_EVENT,
+          SmsRetriever.getConstants().SMS_EVENT,
           (data: any) => {
             setResult(JSON.stringify(data));
           }
