@@ -1,5 +1,4 @@
-import type { TurboModule } from 'react-native';
-import { TurboModuleRegistry } from 'react-native';
+import { Platform, TurboModuleRegistry, type TurboModule } from 'react-native';
 
 export interface Spec extends TurboModule {
   requestPhoneNumber(): Promise<string>;
@@ -15,4 +14,9 @@ export interface Spec extends TurboModule {
   };
 }
 
-export default TurboModuleRegistry.getEnforcing<Spec>('AndroidSmsRetriever');
+const NativeSmsRetrieverModule = Platform.select({
+  android: TurboModuleRegistry.getEnforcing<Spec>('AndroidSmsRetriever'),
+  default: undefined,
+});
+
+export default NativeSmsRetrieverModule;

@@ -40,7 +40,12 @@
   },
   "keywords": [
     "react-native",
-    "android"
+    "android",
+    "sms",
+    "phone",
+    "retriever",
+    "otp",
+    "gms"
   ],
   "repository": "https://github.com/Aure77/react-native-android-sms-retriever-api",
   "author": "Aure77 <1374354+Aure77@users.noreply.github.com> (https://github.com/Aure77)",
