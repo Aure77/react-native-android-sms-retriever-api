@@ -14,9 +14,9 @@ export interface Spec extends TurboModule {
   };
 }
 
-const NativeSmsRetrieverModule = Platform.select({
-  android: TurboModuleRegistry.getEnforcing<Spec>('AndroidSmsRetriever'),
-  default: undefined,
-});
+const NativeSmsRetrieverModule: Spec | undefined =
+  Platform.OS === 'android'
+    ? TurboModuleRegistry.getEnforcing<Spec>('AndroidSmsRetriever')
+    : undefined;
 
 export default NativeSmsRetrieverModule;
