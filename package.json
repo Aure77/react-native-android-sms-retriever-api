@@ -1,6 +1,6 @@
 {
   "name": "react-native-android-sms-retriever-api",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Android SMS Retriever API for React Native",
   "source": "./src/index.tsx",
   "main": "./lib/module/index.js",
