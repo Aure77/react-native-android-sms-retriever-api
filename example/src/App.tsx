@@ -12,6 +12,7 @@ import {
 import SmsRetriever from 'react-native-android-sms-retriever-api';
 
 export default function App() {
+  const [appHash, setAppHash] = React.useState<string | undefined>();
   const [phoneNumber, setPhoneNumber] = React.useState<string | undefined>();
   const [result, setResult] = React.useState<string | undefined>();
 
@@ -31,6 +32,7 @@ export default function App() {
       // get App Hash
       const hash = await SmsRetriever.getAppHash();
       console.log('Your App Hash is : ' + hash);
+      setAppHash(hash);
     }
     // only to be used with Android
     if (Platform.OS === 'android') getAppHashAsync();
@@ -85,11 +87,15 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.box}>App Hash: {appHash}</Text>
       <Button title="Request phone number" onPress={requestPhoneNumber} />
       {phoneNumber && (
         <Text style={styles.box}>Phone Number: {phoneNumber}</Text>
       )}
-      <Text style={styles.box}>SMS Result: {result}</Text>
+      <Text style={styles.box}>
+        SMS Result:{'\n'}
+        {result}
+      </Text>
     </View>
   );
 }
@@ -99,8 +105,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'white',
   },
   box: {
-    marginVertical: 16,
+    margin: 16,
   },
 });
