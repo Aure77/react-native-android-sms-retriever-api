@@ -19,19 +19,13 @@ While developing, you can run the [example app](/example/) to test your changes.
 To start the packager:
 
 ```sh
-yarn example start
+yarn react-native-android-sms-retriever-api-example start
 ```
 
 To run the example app on Android:
 
 ```sh
-yarn example android
-```
-
-To run the example app on iOS:
-
-```sh
-yarn example ios
+yarn react-native-android-sms-retriever-api-example android
 ```
 
 Make sure your code passes TypeScript and ESLint. Run the following to verify:
@@ -52,8 +46,6 @@ Remember to add tests for your change if possible. Run the unit tests by:
 ```sh
 yarn test
 ```
-
-To edit the Objective-C or Swift files, open `example/ios/AndroidSmsRetrieverExample.xcworkspace` in XCode and find the source files at `Pods > Development Pods > react-native-android-sms-retriever-api`.
 
 To edit the Java or Kotlin files, open `example/android` in Android studio and find the source files at `react-native-android-sms-retriever-api` under `Android`.
 
@@ -92,13 +84,11 @@ yarn release
 
 The `package.json` file contains various scripts for common tasks:
 
-- `yarn bootstrap`: setup project by installing all dependencies and pods.
 - `yarn typecheck`: type-check files with TypeScript.
 - `yarn lint`: lint files with ESLint.
 - `yarn test`: run unit tests with Jest.
-- `yarn example start`: start the Metro server for the example app.
-- `yarn example android`: run the example app on Android.
-- `yarn example ios`: run the example app on iOS.
+- `yarn react-native-android-sms-retriever-api-example start`: start the Metro server for the example app.
+- `yarn react-native-android-sms-retriever-api-example android`: run the example app on Android.
 
 ### Sending a pull request
 

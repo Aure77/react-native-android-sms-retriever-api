@@ -78,9 +78,9 @@ class SmsBroadcastReceiver(private val mContext: ReactApplicationContext) : Broa
     try {
       // Start activity to show consent dialog to user, activity must be started in
       // 5 minutes, otherwise you'll receive another TIMEOUT intent
-      if (mContext.currentActivity is Activity && mContext.currentActivity != null) {
-        mContext.currentActivity!!.startActivityForResult(consentIntent, SMS_CONSENT_REQUEST)
-
+      val activity = mContext.getCurrentActivity()
+      if (activity is Activity) {
+        activity.startActivityForResult(consentIntent, SMS_CONSENT_REQUEST)
       } else {
         Log.e(TAG, "currentActivity should be an instanceof Activity.");
       }
