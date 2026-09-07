@@ -9,15 +9,12 @@ buildscript {
   }
 
   dependencies {
-    classpath "com.android.tools.build:gradle:8.7.2"
-    // noinspection DifferentKotlinGradleVersion
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${getExtOrDefault('kotlinVersion')}"
+    classpath "com.android.tools.build:gradle:9.2.1"
   }
 }
 
 
 apply plugin: "com.android.library"
-apply plugin: "kotlin-android"
 
 apply plugin: "com.facebook.react"
 
@@ -28,11 +25,11 @@ def getExtOrIntegerDefault(name) {
 android {
   namespace "com.androidsmsretriever"
 
-  compileSdkVersion getExtOrIntegerDefault("compileSdkVersion")
+  compileSdk getExtOrIntegerDefault("compileSdkVersion")
 
   defaultConfig {
-    minSdkVersion getExtOrIntegerDefault("minSdkVersion")
-    targetSdkVersion getExtOrIntegerDefault("targetSdkVersion")
+    minSdk getExtOrIntegerDefault("minSdkVersion")
+    targetSdk getExtOrIntegerDefault("targetSdkVersion")
   }
 
   buildFeatures {

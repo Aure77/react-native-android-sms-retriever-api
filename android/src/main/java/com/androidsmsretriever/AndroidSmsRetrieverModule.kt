@@ -35,7 +35,7 @@ class AndroidSmsRetrieverModule(reactContext: ReactApplicationContext) :
 
   override fun requestPhoneNumber(promise: Promise?) {
     val context = reactApplicationContext
-    val activity = currentActivity
+    val activity = getCurrentActivity()
     val eventListener: ActivityEventListener = mPhoneNumberHelper.activityEventListener
     context.addActivityEventListener(eventListener)
     mPhoneNumberHelper.onPhoneNumberResultReceived {
