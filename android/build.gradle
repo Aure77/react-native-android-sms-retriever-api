@@ -10,11 +10,31 @@ buildscript {
 
   dependencies {
     classpath "com.android.tools.build:gradle:9.2.1"
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${getExtOrDefault('kotlinVersion')}"
   }
 }
 
+// AGP 9 compiles Kotlin sources itself (built-in Kotlin) and fails if the Kotlin
+// Android plugin is applied on top. Apps may opt out with `android.builtInKotlin=false`
+// (the React Native 0.87 template does), then the plugin has to be applied here.
+// AGP < 9 has no built-in Kotlin at all.
+def shouldEnableAgpFallback() {
+  def agpMajorVersion = com.android.Version.ANDROID_GRADLE_PLUGIN_VERSION.tokenize('.')[0].toInteger()
+  if (agpMajorVersion <= 8) {
+    return true
+  }
+
+  def propertyVal = providers.gradleProperty("android.builtInKotlin").orNull
+  def isBuiltInKotlinEnabled = propertyVal != null ? propertyVal.toBoolean() : true
+
+  return !isBuiltInKotlinEnabled
+}
 
 apply plugin: "com.android.library"
+
+if (shouldEnableAgpFallback()) {
+  apply plugin: 'kotlin-android'
+}
 
 apply plugin: "com.facebook.react"
 
